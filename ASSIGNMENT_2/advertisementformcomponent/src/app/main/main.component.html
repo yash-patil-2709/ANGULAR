@@ -1,0 +1,57 @@
+<div class="container-fluid mb-5">
+  <h1>Advertisement Form</h1>
+  <div class="alert alert-danger" *ngIf="errorMsg">
+    {{errorMsg}}
+  </div>
+  <button type="submit" (click)="onEdit()">Edit Form</button>
+  <button type="submit" (click)="onDelete()">Delete</button>
+  <form #userForm="ngForm" *ngIf='!submitted' (ngSubmit)="onSubmit(userForm)" novalidate>
+
+    <div class="form-group">
+    <label>Title</label>
+    <input type="text" #title="ngModel" class="form-control" name="title" [(ngModel)]="userModel.title">
+    </div>
+
+    <div class="form-group">
+    <label>Name</label>
+    <input type="text" #name="ngModel" required [class.is-invalid]="name.invalid && name.touched" class="form-control" name="name" [(ngModel)]="userModel.name">
+    <small class="text-danger" [class.d-none]="name.valid || name.untouched">Name is required</small>
+    </div>
+
+    <div class="form-group">
+      <label>Category</label>
+      <select #cat="ngModel" (blue)="validateCategory(category.value)" (change)="validateCategory(category.value)" class="custom-select"  #category="ngModel" [class.is-invalid]="categoryHasError && category.touched" name="category" [(ngModel)]="userModel.category">
+        <option value="default">I am interested in</option>
+        <option *ngFor="let category of categories">{{category}}</option>
+      </select>
+      <small class="text-danger" [class.d-none]="!categoryHasError || category.untouched">Please choose a category</small>
+    </div>
+
+    <div class="form-group">
+    <label>Description</label>
+    <input type="text" #des="ngModel" class="form-control" name="description" [(ngModel)]="userModel.description">
+    </div>
+
+    <button [disabled]="userForm.form.invalid || categoryHasError" class="btn btn-primary" type="submit">Submit Form</button>
+    <!-- {{title.value}} -->
+
+    <table border="5" >
+     <tr>
+       <td>Title</td>
+       <td>Name</td>
+       <td>Category</td>
+       <td>Description</td>
+     </tr>
+
+     <tr *ngFor="let i of arraydata">
+       <td>{{i.title}}</td>
+       <td>{{i.name}}</td>
+       <td>{{i.category}}</td>
+       <td>{{i.description}}</td>
+     </tr>
+    </table>
+
+
+    </form>
+
+</div>
